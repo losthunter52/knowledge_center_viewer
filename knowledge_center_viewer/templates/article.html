@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card m-2 p-1">
+    <div class="card-body d-flex flex-column" style="height: 45vh;">
+      <h5 class="card-title">{{ article.title }}</h5>
+      <div class="flex-grow-1" style="overflow-y: auto;">
+        {{ article.body|safe }}
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="card m-2 p-1">
+    <div class="card-body d-flex flex-column" style="height: 45vh;">
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="pk" value="{{ article.pk }}">
+        <div class="d-flex justify-content-between align-items-center form-inline">
+          <div class="form-group">
+            <select id="status" name="status" class="form-control w-100">
+            {% for status in status_list %}
+            {% if status == article.status %}
+            <option value="{{ status }}" selected>{{ status }}</option>
+            {% else %}
+            <option value="{{ status }}">{{ status }}</option>
+            {% endif %}
+            {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+        <br/>
+        <div class="form-group">
+          <textarea id="comment" name="comment" class="form-control flex-grow-1"
+          style="height: 100%;resize: none;" rows="8">{{ article.comment }}</textarea>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endblock %}
